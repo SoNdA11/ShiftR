@@ -6,9 +6,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: subosito/flutter-action@v2
         with:
+          # Pinned to match the local dev SDK. The android/ toolchain
+          # (Gradle 8.10.2 / AGP 8.7.3 / KGP 1.8.22) predates the AGP 9
+          # migration, so latest stable (3.47+) rejects it.
+          # When upgrading Flutter locally, run the Android migrators
+          # (flutter upgrade) and bump this pin together.
+          flutter-version: '3.29.2'
           channel: stable
           cache: true
       - run: flutter pub get
